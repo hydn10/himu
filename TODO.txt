@@ -1,0 +1,24 @@
+How to join agents?
+Ideally the context would do that.
+`async_scope` could be useful?
+https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2024/p3149r3.html
+
+
+Can agents await other sources other than events? (e.g. http requests)
+Yes they do and thats why i need the scope.
+The "simulation" executor should not be responsible for joining all tasks scheduled on it.
+What if they are transfered somewhere else? (e.g. after waiting simulation steps they go 
+to a networking executor and await an api call).
+
+
+https://www.youtube.com/watch?v=XaNajUp-sGY
+Also see io_uring_context in stdexec
+(https://github.com/NVIDIA/stdexec/blob/main/include/exec/linux/io_uring_context.hpp)
+
+
+epiphany: all schedulers can be adapted to the schedule(sched) interface using for example
+```
+auto sched = sim.get_steps_scheduler(steps);
+auto sdr = stdexec::schedule(sched);
+```
+So no need for special syntax or tags to allow `schedule(sched, steps)`.

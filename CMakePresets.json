@@ -1,0 +1,177 @@
+﻿{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "build-tests",
+      "hidden": true,
+      "cacheVariables": {
+        "HIMU_BUILD_TESTS": "ON"
+      }
+    },
+    {
+      "name": "build-apps",
+      "hidden": true,
+      "cacheVariables": {
+        "HIMU_BUILD_APPS": "ON"
+      }
+    },
+    {
+      "name": "windows-base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "cl.exe"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "linux-base",
+      "hidden": true,
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "vcpkg",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      }
+    },
+    {
+      "name": "x64",
+      "hidden": true,
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      }
+    },
+    {
+      "name": "debug",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "release",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "profile",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
+      }
+    },
+    {
+      "name": "dev-x64-win-debug-vcpkg",
+      "displayName": "x64 Debug",
+      "inherits": [
+        "x64",
+        "windows-base",
+        "vcpkg",
+        "debug",
+        "build-apps",
+        "build-tests"
+      ]
+    },
+    {
+      "name": "dev-x64-win-release-vcpkg",
+      "displayName": "x64 Release",
+      "inherits": [
+        "x64",
+        "windows-base",
+        "vcpkg",
+        "release",
+        "build-apps",
+        "build-tests"
+      ]
+    },
+    {
+      "name": "dev-x64-win-profile-vcpkg",
+      "displayName": "x64 Profile",
+      "inherits": [
+        "x64",
+        "windows-base",
+        "vcpkg",
+        "profile",
+        "build-apps",
+        "build-tests"
+      ]
+    },
+    {
+      "name": "dev-x64-lin-debug-vcpkg",
+      "displayName": "x64 Debug",
+      "inherits": [
+        "x64",
+        "linux-base",
+        "vcpkg",
+        "debug",
+        "build-apps",
+        "build-tests"
+      ]
+    },
+    {
+      "name": "dev-x64-lin-release-vcpkg",
+      "displayName": "x64 Release",
+      "inherits": [
+        "x64",
+        "linux-base",
+        "vcpkg",
+        "release",
+        "build-apps",
+        "build-tests"
+      ]
+    },
+    {
+      "name": "dev-x64-lin-profile-vcpkg",
+      "displayName": "x64 Profile",
+      "inherits": [
+        "x64",
+        "linux-base",
+        "vcpkg",
+        "profile",
+        "build-apps",
+        "build-tests"
+      ]
+    },
+    {
+      "name": "ghci-ubuntu",
+      "inherits": [
+        "x64",
+        "linux-base",
+        "release",
+        "build-apps",
+        "build-tests"
+      ],
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++-14"
+      }
+    },
+    {
+      "name": "ghci-windows",
+      "inherits": [
+        "x64",
+        "windows-base",
+        "release",
+        "build-apps",
+        "build-tests"
+      ]
+    }
+  ]
+}
